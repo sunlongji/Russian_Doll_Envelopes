@@ -1,0 +1,21 @@
+public class Solution {
+    public int maxEnvelopes(int[][] envelopes) {
+        int n=envelopes.length;
+        if(n<=1)    return n;
+        //Width is in an ascending order, and height is a decreasing order;
+        Arrays.sort(envelopes,(a,b)->((a[0]==b[0])?b[1]-a[1]:a[0]-b[0]));
+        int[] dp=new int[n];
+        int len=0;
+        for(int i=0;i<n;i++){
+            //index is the insert position.
+            int index=Arrays.binarySearch(dp,0,len,envelopes[i][1]);
+            //if not found, index is negative;
+            if(index<0) index=-(index+1);
+            //update the array dp;
+            dp[index]=envelopes[i][1];
+            //The insertion position is len, the length of the array should be increased by 1;
+            if(index==len) len++;
+        }
+        return len;
+    }
+}
